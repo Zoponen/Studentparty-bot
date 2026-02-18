@@ -9,6 +9,7 @@ import discord4j.core.shard.GatewayBootstrap;
 import discord4j.gateway.GatewayOptions;
 import discord4j.gateway.intent.Intent;
 import discord4j.gateway.intent.IntentSet;
+import discord4j.core.object.emoji.Emoji;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -46,13 +47,11 @@ public class DiscordBot {
                 return Mono.empty();
             }).then();
 
-            Mono<Void> getreactions = gateway.on(ReactionAddEvent.class ,event -> {
-                event.getMessage().flatMap(msg -> msg.addReaction(ReactionEmoji.unicode("👍")))
-                        .subscribe();
-                return Mono.empty();
+            Mono<Void> getReactions = gateway.on(ReactionAddEvent.class ,event -> {
+                return event.getMessage().flatMap(msg -> msg.addReaction(Emoji.unicode("\\u2B06")));
             }).then();
             // combine them!
-            return printOnLogin.and(handlePingCommand);
+            return printOnLogin.and(handlePingCommand).and(getReactions);
         });
         login.block();
 
