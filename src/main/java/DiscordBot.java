@@ -2,6 +2,7 @@ import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.shard.GatewayBootstrap;
@@ -20,7 +21,7 @@ public class DiscordBot {
 
         File myObj = new File("src/main/resources/token.txt");
         Scanner myReader = new Scanner(myObj);
-        GatewayBootstrap<GatewayOptions> client = DiscordClient.create(myReader.nextLine()).gateway().setEnabledIntents(IntentSet.nonPrivileged().or(IntentSet.of(Intent.MESSAGE_CONTENT)));
+        GatewayBootstrap<GatewayOptions> client = DiscordClient.create(myReader.nextLine()).gateway().setEnabledIntents(IntentSet.nonPrivileged().or(IntentSet.of(Intent.MESSAGE_CONTENT)).or(IntentSet.of(Intent.GUILD_MESSAGE_REACTIONS)));
         myReader.close();
 
 
@@ -45,6 +46,11 @@ public class DiscordBot {
                 return Mono.empty();
             }).then();
 
+            Mono<Void> getreactions = gateway.on(ReactionAddEvent.class ,event -> {
+                event.getMessage().flatMap(msg -> msg.addReaction(ReactionEmoji.unicode("👍")))
+                        .subscribe();
+                return Mono.empty();
+            }).then();
             // combine them!
             return printOnLogin.and(handlePingCommand);
         });
