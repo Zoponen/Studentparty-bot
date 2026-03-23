@@ -1,13 +1,18 @@
+package bot;
+
+import bot.commands.CommandExecutor;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.shard.GatewayBootstrap;
 import discord4j.gateway.GatewayOptions;
 import discord4j.gateway.intent.Intent;
 import discord4j.gateway.intent.IntentSet;
+import discord4j.core.object.emoji.Emoji;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
@@ -16,14 +21,27 @@ import java.util.Scanner;
 
 public class DiscordBot {
 
+    public static GatewayDiscordClient client;
+
     public static void main(String[] args) throws FileNotFoundException {
 
         File myObj = new File("src/main/resources/token.txt");
         Scanner myReader = new Scanner(myObj);
-        GatewayBootstrap<GatewayOptions> client = DiscordClient.create(myReader.nextLine()).gateway().setEnabledIntents(IntentSet.nonPrivileged().or(IntentSet.of(Intent.MESSAGE_CONTENT)));
+
+
+        //Register commands
+        CommandExecutor.initRegistry();
+
+        // Initiate and Login client instance
+        client = Client.create(myReader.nextLine());
+        if (client == null)
+            throw new NullPointerException("Failed to log in! Client cannot be null!");
         myReader.close();
 
+    }
+}
 
+/* LEGACY
         Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> {
             // ReadyEvent example
             Mono<Void> printOnLogin = gateway.on(ReadyEvent.class, event ->
@@ -45,12 +63,14 @@ public class DiscordBot {
                 return Mono.empty();
             }).then();
 
+            Mono<Void> getReactions = gateway.on(ReactionAddEvent.class ,event -> {
+                return event.getMessage().flatMap(msg -> msg.addReaction(Emoji.unicode("\\u2B06")));
+            }).then();
             // combine them!
-            return printOnLogin.and(handlePingCommand);
+            return printOnLogin.and(handlePingCommand).and(getReactions);
         });
         login.block();
 
 
 
-    }
-}
+ */
