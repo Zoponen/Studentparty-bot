@@ -1,5 +1,6 @@
 package bot;
 
+import bot.commands.CommandExecutor;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
@@ -20,14 +21,27 @@ import java.util.Scanner;
 
 public class DiscordBot {
 
+    public static GatewayDiscordClient client;
+
     public static void main(String[] args) throws FileNotFoundException {
 
         File myObj = new File("src/main/resources/token.txt");
         Scanner myReader = new Scanner(myObj);
-        GatewayBootstrap<GatewayOptions> client = DiscordClient.create(myReader.nextLine()).gateway().setEnabledIntents(IntentSet.nonPrivileged().or(IntentSet.of(Intent.MESSAGE_CONTENT)).or(IntentSet.of(Intent.GUILD_MESSAGE_REACTIONS)));
+
+
+        //Register commands
+        CommandExecutor.initRegistry();
+
+        // Initiate and Login client instance
+        client = Client.create(myReader.nextLine());
+        if (client == null)
+            throw new NullPointerException("Failed to log in! Client cannot be null!");
         myReader.close();
 
+    }
+}
 
+/* LEGACY
         Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> {
             // ReadyEvent example
             Mono<Void> printOnLogin = gateway.on(ReadyEvent.class, event ->
@@ -59,5 +73,4 @@ public class DiscordBot {
 
 
 
-    }
-}
+ */

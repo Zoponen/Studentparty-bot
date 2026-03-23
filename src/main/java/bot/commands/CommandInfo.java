@@ -15,7 +15,6 @@ public class CommandInfo {
         this.example = example;
     }
 
-    //Getters
     public String getName() {
         return this.name;
     }

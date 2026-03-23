@@ -12,7 +12,7 @@ import java.util.List;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class MessageCreateListener {
-    public static Mono<Void> Handle(final MessageCreateEvent event){
+    public static Mono<Void> handle(final MessageCreateEvent event){
         // todo: per server basis using db
         GuildSettings settings = new GuildSettings();
 
@@ -25,6 +25,7 @@ public class MessageCreateListener {
                 .map(Message::getContent)
                 .flatMap(content -> {
                     if (!content.startsWith("!")) return Mono.empty();
+
                     System.out.println("MessageCreateListener");
                     final String[] cmdAndArgs = content.trim().split("\\s+");
                     if (cmdAndArgs.length > 1) {

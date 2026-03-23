@@ -28,7 +28,7 @@ public class CommandExecutor {
 
     public static void initRegistry(){
         //TODO we do this son
-//        CommandExecutor.registerCommand(new PingCommand());
+        CommandExecutor.registerCommand(new PingCommand());
 //        CommandExecutor.registerCommand(new StartCommand());
     }
 
