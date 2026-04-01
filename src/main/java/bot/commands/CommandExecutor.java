@@ -29,7 +29,7 @@ public class CommandExecutor {
     public static void initRegistry(){
         //TODO we do this son
         CommandExecutor.registerCommand(new PingCommand());
-//        CommandExecutor.registerCommand(new StartCommand());
+        CommandExecutor.registerCommand(new PartyCommand());
     }
 
     public static Mono<Void> issueCommand(final String cmd, final List<String> argsOr, final MessageCreateEvent event, final GuildSettings settings) {
