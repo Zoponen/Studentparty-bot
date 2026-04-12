@@ -2,7 +2,6 @@ package bot;
 
 import bot.listeners.MessageCreateListener;
 import bot.listeners.ReadyEventListener;
-import discord4j.core.DiscordClient;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
@@ -24,7 +23,7 @@ public class Client {
                             .then();
 
                     final Mono<Void> onCommand = client
-                            .on(MessageCreateEvent.class, MessageCreateListener::handle)
+                            .on(MessageCreateEvent.class, event -> MessageCreateListener.handle(event, client))
                             .then();
 
                     return Mono.when(onBoot, onCommand);

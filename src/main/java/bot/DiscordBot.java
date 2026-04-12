@@ -1,19 +1,7 @@
 package bot;
 
 import bot.commands.CommandExecutor;
-import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.event.domain.lifecycle.ReadyEvent;
-import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.event.domain.message.ReactionAddEvent;
-import discord4j.core.object.entity.Message;
-import discord4j.core.object.entity.User;
-import discord4j.core.shard.GatewayBootstrap;
-import discord4j.gateway.GatewayOptions;
-import discord4j.gateway.intent.Intent;
-import discord4j.gateway.intent.IntentSet;
-import discord4j.core.object.emoji.Emoji;
-import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.FileNotFoundException;

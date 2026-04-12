@@ -1,0 +1,25 @@
+{
+  "posts": [
+    {
+      "serial": "0001",
+      "name": "Trade fair",
+      "time": "13.4. 12:00-14:00",
+      "location": "Agora",
+      "desc": "Showing of cool projects that have been worked with many months"
+    },
+    {
+      "serial": "0002",
+      "name": "Party HARDCORE",
+      "time": "21.4. 19:00-02:00",
+      "location": "River",
+      "desc": "WIMMAWE"
+    },
+    {
+      "serial": "0003",
+      "name": "WAPPU",
+      "time": "1.5. whole day",
+      "location": "Wherever are donuts, sima and students",
+      "desc": "Remember eat your bigs and sims"
+    }
+  ]
+}

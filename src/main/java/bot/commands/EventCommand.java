@@ -1,19 +1,21 @@
 package bot.commands;
 
+
 import bot.GuildSettings;
+import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.channel.TextChannel;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartyCommand implements Command{
+public class EventCommand implements Command {
 
-    @Override
     public String getCommand() {
-        return "party";
+        return "bgl";
     }
 
     @Override
@@ -23,19 +25,21 @@ public class PartyCommand implements Command{
 
     @Override
     public CommandInfo getCommandInfo() {
-        return new CommandInfo("party", "get info of party","!party 0001");
+        return new CommandInfo("bgl", "bgl","bgl");
     }
 
     @Override
     public Mono<Void> issueCommand(String[] args, MessageCreateEvent event, GuildSettings settings, GatewayDiscordClient client) {
-        Mono<Message> PingMessage = event.getMessage().getChannel().flatMap(channel ->
+
+
+        Mono<Message> EventMessage =
+                client.getChannelById(Snowflake.of("1467903841876840590")).cast(TextChannel.class).flatMap(channel ->
                 channel.createMessage(String.format("""
                         >>> # %s
                         Time : %s
                         Location: %s
                         Description: %s"""
                         ,"Test","13:37","Lipasto","AAHAH HAHDHADHAWNBSDJAWJdAHSD HAWJSDJWJASD")));
-        return PingMessage.then();
+        return EventMessage.then();
     }
 }
-
