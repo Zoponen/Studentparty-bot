@@ -39,7 +39,7 @@ public class EventCommand implements Command {
                         Time : %s
                         Location: %s
                         Description: %s"""
-                        ,"Test","13:37","Lipasto","AAHAH HAHDHADHAWNBSDJAWJdAHSD HAWJSDJWJASD")));
+                        , "Trade fair", "13.4. 12:00-14:00", "Agora", "Showing of cool projects that have been worked with many months")));
         return EventMessage.then();
     }
 }
