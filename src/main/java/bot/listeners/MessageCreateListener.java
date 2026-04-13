@@ -2,6 +2,7 @@ package bot.listeners;
 
 import bot.GuildSettings;
 import bot.commands.CommandExecutor;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import reactor.core.publisher.Mono;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class MessageCreateListener {
-    public static Mono<Void> handle(final MessageCreateEvent event){
+    public static Mono<Void> handle(final MessageCreateEvent event,final GatewayDiscordClient client) {
         // todo: per server basis using db
         GuildSettings settings = new GuildSettings();
 
@@ -34,13 +35,13 @@ public class MessageCreateListener {
                         final List<String> args = Arrays.asList(cmdAndArgs).subList(1, cmdAndArgs.length);
 
                         //issue command
-                        return CommandExecutor.issueCommand(cmd, args, event, settings);
+                        return CommandExecutor.issueCommand(cmd, args, event, settings, client);
                     } else if (cmdAndArgs.length == 1) {
                         //Only command, no args
                         final String cmd = cmdAndArgs[0].replace("!", "");
 
                         //Issue command
-                        return CommandExecutor.issueCommand(cmd, new ArrayList<>(), event, settings);
+                        return CommandExecutor.issueCommand(cmd, new ArrayList<>(), event, settings, client);
                     } else {
                         //Bot not mentioned, and this is not a command, ignore this
                         return Mono.empty();

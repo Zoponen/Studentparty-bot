@@ -2,6 +2,7 @@ package bot.commands;
 
 import bot.GuildSettings;
 import bot.commands.CommandInfo;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Mono;
 
@@ -55,5 +56,5 @@ public interface Command {
         return info;
     }
 
-    Mono<Void> issueCommand(String[] args, MessageCreateEvent event, GuildSettings settings);
+    Mono<Void> issueCommand(String[] args, MessageCreateEvent event, GuildSettings settings, GatewayDiscordClient client);
 }

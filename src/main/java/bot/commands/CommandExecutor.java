@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.GuildSettings;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -30,9 +31,10 @@ public class CommandExecutor {
         //TODO we do this son
         CommandExecutor.registerCommand(new PingCommand());
         CommandExecutor.registerCommand(new PartyCommand());
+        CommandExecutor.registerCommand(new EventCommand());
     }
 
-    public static Mono<Void> issueCommand(final String cmd, final List<String> argsOr, final MessageCreateEvent event, final GuildSettings settings) {
+    public static Mono<Void> issueCommand(final String cmd, final List<String> argsOr, final MessageCreateEvent event, final GuildSettings settings, final GatewayDiscordClient client) {
         final String[] args;
         if (!argsOr.isEmpty()) {
             final String toParse = GeneralUtils.getContent(argsOr, 0);
@@ -42,7 +44,7 @@ public class CommandExecutor {
         }
 
         return Mono.from(getCommand(cmd)
-                .flatMap(c -> c.issueCommand(args, event, settings)));
+                .flatMap(c -> c.issueCommand(args, event, settings, client)));
     }
 
     /**

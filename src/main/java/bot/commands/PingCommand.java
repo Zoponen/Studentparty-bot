@@ -1,6 +1,7 @@
 package bot.commands;
 
 import bot.GuildSettings;
+import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import reactor.core.publisher.Mono;
@@ -27,7 +28,7 @@ public class PingCommand implements Command {
 
 
     @Override
-    public Mono<Void> issueCommand(String[] args, MessageCreateEvent event, GuildSettings settings) {
+    public Mono<Void> issueCommand(String[] args, MessageCreateEvent event, GuildSettings settings, GatewayDiscordClient client) {
         Mono<Message> PingMessage = event.getMessage().getChannel().flatMap(channel -> channel.createMessage("pong!"));
         return PingMessage.then();
     }
